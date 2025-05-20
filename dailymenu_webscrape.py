@@ -13,9 +13,9 @@ logging.basicConfig(level=logging.INFO)
 def scrape_and_save_denni_menu():
     urls = {
     
-        "technicka_menza": "https://agata.suz.cvut.cz/jidelnicky/indexTyden.php?clPodsystem=3&lang=cs",
+        #"technicka_menza": "https://agata.suz.cvut.cz/jidelnicky/indexTyden.php?clPodsystem=3&lang=cs",
         "restaurant_kulatak": "https://kulatak.cz/#menu-obsah", # pomocí beautiful soup najít si v web inspector paragrafy <p jednotlivých jídel který vyprintuješ
-        "restaurant_utopolu": "https://www.utopolu.cz/menu", #je to obrázek takže musím použít OCR pytesseract 
+        #"restaurant_utopolu": "https://www.utopolu.cz/menu", #je to obrázek takže musím použít OCR pytesseract
         #cafe organica potřebuju login přes selenium nebo cookies
     }
 
@@ -29,11 +29,13 @@ def scrape_and_save_denni_menu():
             
             
             soup = BeautifulSoup(page_html)
-            print(soup)
-
-            print(soup.prettify())
+            container = soup.find(attrs={"class": "elementor-element-425aa18"})
+            p = container.find_all('p')
+            for i in p:
+                print(i.get_text())
 
 
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
 
+scrape_and_save_denni_menu()
