@@ -1,6 +1,6 @@
 import requests
 import logging
-from .models import JidelnaCVUT, JidelnaCVUTDenniMenu
+from .models import JidelnaCVUT, JidelnaCVUTDenniMenu # asdf
 from celery import shared_task
 
 # Configure logging
