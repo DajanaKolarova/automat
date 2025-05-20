@@ -1,5 +1,9 @@
 import requests
 import logging
+from bs4 import BeautifulSoup
+from PIL import Image
+import pytesseract
+
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -18,22 +22,17 @@ def scrape_and_save_denni_menu():
     try:
         # Create or update a single entry for the daily menu
        
+        for jidelna, url in urls.items():       
+            response = requests.get(url)
+            response.raise_for_status()
+            page_html = response.text
+            
+            
+            soup = BeautifulSoup(page_html)
+            print(soup)
 
-        for jidelna, url in urls.items():
-            try:
-                response = requests.get(url)
-                response.raise_for_status()
-                page_html = response.text
+            print(soup.prettify())
 
-                # Dynamically set the field on the model
-                field_name = f"jidelnicek_{jidelna}"
-                if hasattr(denni_menu, field_name):
-                    setattr(denni_menu, field_name, page_html)
-                    logger.info(f"Successfully updated {field_name}.")
-                else:
-                    logger.warning(f"Field {field_name} does not exist in the model.")
-            except requests.RequestException as e:
-                logger.error(f"Failed to scrape {jidelna}: {e}")
 
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
